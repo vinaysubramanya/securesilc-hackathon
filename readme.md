@@ -1,4 +1,4 @@
-# 🔐 SecureSilicon — AES-128 Encryption & Decryption over UART (Basys-3)
+#  SecureSilicon — AES-128 Encryption & Decryption over UART (Basys-3)
 
 SecureSilicon is an FPGA-based **AES-128 hardware crypto engine** that supports **both encryption and decryption** over UART.  
 It is fully written in **synthesizable Verilog**, targets the **Digilent Basys-3** FPGA board, and is ideal for hardware security demos, hackathons, and academic projects.
@@ -23,7 +23,7 @@ The PC communicates with the Basys-3 over the onboard **FTDI USB-UART** interfac
 
 ---
 
-## 🧱 Top-Level Architecture
+## Top-Level Architecture
 
 High-level data flow:
 
@@ -60,7 +60,7 @@ The entire design runs at **25 MHz**, generated from the Basys-3 **100 MHz clock
 
 ---
 
-## 📁  GitHub Repository Structure
+##   GitHub Repository Structure
 
 ```text
 SecureSilicon-AES-UART/
@@ -86,7 +86,7 @@ SecureSilicon-AES-UART/
 
 ---
 
-## 🔑 AES Key
+##  AES Key
 
 In `echo_top`, a fixed 128-bit AES test key is used (you can modify it):
 
@@ -99,9 +99,9 @@ This key is passed to `key_expand_128`, which generates **11 round keys** for AE
 
 ---
 
-## 🧩 Module-by-Module Explanation
+##  Module-by-Module Explanation
 
-### 1️⃣ `echo_top` — AES-UART System Top
+###  `echo_top` — AES-UART System Top
 
 **Role:**  
 The main control module that connects UART, AES cores, key expansion, and the FSM that handles the protocol.
@@ -129,7 +129,7 @@ This module is the **brain** of the system and directly implements the high-leve
 
 ---
 
-### 2️⃣ `clock_div_25mhz` — 100 MHz to 25 MHz Divider
+###  `clock_div_25mhz` — 100 MHz to 25 MHz Divider
 
 **Role:**  
 Simple synchronous divider to generate a 25 MHz clock from the 100 MHz Basys-3 input.
@@ -144,7 +144,7 @@ This 25 MHz clock is used for:
 
 ---
 
-### 3️⃣ `uart_rx` — UART Receiver
+###  `uart_rx` — UART Receiver
 
 **Role:**  
 Receives serial data from the PC and converts it into 8-bit parallel bytes with a strobe `valid`.
@@ -166,7 +166,7 @@ The `echo_top` FSM uses `rx_valid` + `rx_byte` from this module.
 
 ---
 
-### 4️⃣ `uart_tx` — UART Transmitter
+###  `uart_tx` — UART Transmitter
 
 **Role:**  
 Takes 8-bit parallel data and sends it out serially over UART with start/stop framing.
@@ -186,7 +186,7 @@ Takes 8-bit parallel data and sends it out serially over UART with start/stop fr
 
 ---
 
-### 5️⃣ `sbox` — AES SubBytes Lookup
+###  `sbox` — AES SubBytes Lookup
 
 **Role:**  
 Implements the standard AES **S-Box** as a combinational lookup table.
@@ -204,7 +204,7 @@ This is the non-linear heart of AES.
 
 ---
 
-### 6️⃣ `mixcolumns` — AES MixColumns (Encryption)
+###  `mixcolumns` — AES MixColumns (Encryption)
 
 **Role:**  
 Implements the **MixColumns** transformation for AES encryption.
@@ -222,7 +222,7 @@ Not used in the **final round** (round 10), as per AES spec.
 
 ---
 
-### 7️⃣ `key_expand_128` — AES-128 Key Expansion
+###  `key_expand_128` — AES-128 Key Expansion
 
 **Role:**  
 Takes a 128-bit AES key and expands it into **44 words (32 bits each)** — total of **11 round keys** (0–10).
@@ -255,7 +255,7 @@ Both `aes128_encrypt` and `aes128_decrypt` use these round keys via `get_rk(roun
 
 ---
 
-### 8️⃣ `aes128_encrypt` — AES-128 Encryption Core
+###  `aes128_encrypt` — AES-128 Encryption Core
 
 **Role:**  
 Iterative AES encryption core that performs **10 rounds** plus the initial AddRoundKey.
@@ -289,7 +289,7 @@ The core processes one AES block in **11 clock cycles** plus control overhead at
 
 ---
 
-### 9️⃣ `aes128_decrypt` — AES-128 Decryption Core
+###  `aes128_decrypt` — AES-128 Decryption Core
 
 **Role:**  
 Inverse of `aes128_encrypt`, implementing **AES-128 decryption** using the same `round_keys` (0–10).
@@ -322,7 +322,7 @@ Used by `echo_top` when the command byte is `D` / `d`.
 
 ## 🛠 How to Build & Run on Basys-3
 
-### 1️⃣ Vivado Project Setup
+###  Vivado Project Setup
 - Create a new **RTL Project**
 - Add all `src/*.v` files
 - Add the Basys-3 constraint file in `constr/basys3_constraints.xdc`
@@ -332,16 +332,16 @@ Used by `echo_top` when the command byte is `D` / `d`.
     - `uart_rx_pin` → FTDI Rx pin (from PC, B18)
     - `uart_tx_pin` → FTDI Tx pin (to PC, A18)
 
-### 2️⃣ Synthesize & Implement
+###  Synthesize & Implement
 - Run **Synthesis** and **Implementation**
 - Generate **Bitstream**
 
-### 3️⃣ Program the FPGA
+###  Program the FPGA
 - Open **Hardware Manager**
 - Auto-connect to the Basys-3 board
 - Program device with generated `.bit` file
 
-### 4️⃣ Open Serial Terminal on PC
+### Open Serial Terminal on PC
 Use any serial monitor (PuTTY, TeraTerm, VS Code, etc.)
 
 Settings:
@@ -351,7 +351,7 @@ Settings:
 - Stop bits: **1**
 - Flow control: **None**
 
-### 5️⃣ Example Session
+### Example Session
 
 **Encrypt:**
 1. Send ASCII `E`
@@ -367,7 +367,7 @@ FPGA returns 16 bytes of recovered plaintext.
 
 ---
 
-## 🏆 Hackathon Highlights
+
 
 This project demonstrates:
 
