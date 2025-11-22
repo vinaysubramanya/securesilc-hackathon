@@ -60,7 +60,7 @@ The entire design runs at **25 MHz**, generated from the Basys-3 **100 MHz clock
 
 ---
 
-## 📁 Suggested GitHub Repository Structure
+## 📁  GitHub Repository Structure
 
 ```text
 SecureSilicon-AES-UART/
