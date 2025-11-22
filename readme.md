@@ -82,7 +82,7 @@ SecureSilicon-AES-UART/
 └── README.md
 ```
 
-*(File names can be adjusted to match your actual project; this is a clean GitHub-style layout.)*
+
 
 ---
 
